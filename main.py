@@ -1,6 +1,8 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-API_URL = "https://your-api-url-here.com"  # Replace with your chosen API endpoint
+API_URL = "http://api.freecryptoapi.com/vi"  # Replace with your chosen API endpoint
 
 
 def fetch_data():
