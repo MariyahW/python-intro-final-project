@@ -75,7 +75,7 @@ def create():
             except:
                 limit = 100
             if limit > 200:
-                limit = 100
+                limit = 200
             params = {"limit": limit, "author": author}
             return params, "author"
         case "2":
@@ -90,7 +90,7 @@ def create():
                 limit = 100
 
             if limit > 200:
-                limit = 100
+                limit = 200
             params = {"limit": limit, "q": subject}
             return params, "subject"
         case _:
