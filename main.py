@@ -22,18 +22,37 @@ def process_data(data):
     """Extract and transform the fields you need. Returns a list of dictionaries."""
     books = data.get("docs", [])
     cleanBooks = []
+
     for book in books:
-        authors_list = book.get("author_name", ["Unknown Author"])
+        title = book.get("title")
+        authors_list = book.get("author_name")
+        raw_year = book.get("first_publish_year")
+
+        if not title or not authors_list or raw_year is None:
+            continue
+
         prim_Author = authors_list[0]
 
+        try:
+            clean_year = int(raw_year)
+        except (ValueError, TypeError):
+            continue
+
+        raw_pages = book.get("number_of_pages_median", 0)
+        try:
+            clean_pages = int(raw_pages)
+        except (ValueError, TypeError):
+            clean_pages = 0
+
         clean_book = {
-            "title": book.get("title", "Unknown Title"),
+            "title": title,
             "author": prim_Author,
-            "year": book.get("first_publish_year", "N/A"),
-            "pages": book.get("number_of_pages_median", "N/A"),
+            "year": clean_year,  # Now an integer
+            "pages": clean_pages,  # Now an integer
             "key": book.get("key", ""),
         }
         cleanBooks.append(clean_book)
+
     return cleanBooks
 
 
@@ -105,6 +124,9 @@ def export_CSV(records, filename="csv_files/books_export.csv"):
     if not records:
         print("No Records Found")
         return
+    directory = os.path.dirname(filename)
+    if directory and not os.path.exists(directory):
+        os.makedirs(directory)
     fields = records[0].keys()
     try:
         with open(filename, mode="w", newline="", encoding="utf-8") as file:
