@@ -1,8 +1,9 @@
 import requests
 import os
-from dotenv import load_dotenv
 
-API_URL = "https://openlibrary.org/"  # Replace with your chosen API endpoint
+# from dotenv import load_dotenv
+
+API_URL = "https://openlibrary.org/search.json"  # Replace with your chosen API endpoint
 
 
 def fetch_data(q_params):
@@ -18,20 +19,49 @@ def fetch_data(q_params):
 
 def process_data(data):
     """Extract and transform the fields you need. Returns a list of dictionaries."""
-    pass
+    books = data.get("docs", [])
+    cleanBooks = []
+    for book in books:
+        authors_list = book.get("author_name", ["Unknown Author"])
+        prim_Author = authors_list[0]
+
+        clean_book = {
+            "title": book.get("title", "Unknown Title"),
+            "author": prim_Author,
+            "year": book.get("first_publish_year", "N/A"),
+            "pages": book.get("number_of_pages_median", "N/A"),
+            "key": book.get("key", ""),
+        }
+        cleanBooks.append(clean_book)
+    return cleanBooks
 
 
 def display_results(results):
     """Print results to the terminal in a readable format."""
-    pass
+    if not results:
+        print("No records found")
+        return
+
+    print(f"\n--- Found {len(results)} Results ---")
+
+    for index, book in enumerate(results, start=1):
+        title = book.get("title")
+        author = book.get("author")
+        year = book.get("year")
+        pages = book.get("pages")
+
+        print(f"{index}. {title} by {author} (Published: {year}, Pages: {pages})")
+
+    print("-" * 30)
 
 
 def create():
     print(f"====++++++++++=====")
     print(f"Would you like to search by author? Enter 1")
     print(f"Search by subject? Enter 2")
+    # print(f"Exit the program? Enter 3")
     optionA = input(":   ")
-    # print(f"")
+
     match optionA:
         case "1":
             author = input("Which author would you like to search for? ")
@@ -66,7 +96,7 @@ def main():
     if not data:
         return
 
-    records = process_data(data, term)
+    records = process_data(data)
     display_results(records)
 
 
