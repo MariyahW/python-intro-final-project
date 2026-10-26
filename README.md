@@ -48,7 +48,7 @@ When the program runs, you will be greeted with a menu asking if you want to sea
 
 * **Search by Author** — Enter `1` to search the database for all books written by a specific author (e.g., "Tolkien").
 * **Search by Subject** — Enter `2` to search for books falling under a specific genre or topic (e.g., "science fiction").
-* **Result Limiter** — Controls the size of the API response by asking for a maximum number of returns (capped at 100 to prevent terminal overload).
+* **Result Limiter** — Controls the size of the API response by asking for a maximum number of returns (capped at 200 to prevent terminal overload).
 * **CSV Data Export** — After viewing results, type `y` to instantly generate a `books_export.csv` file containing the structured data.
 
 ## Extension Track: Option B (Data Pipeline)
