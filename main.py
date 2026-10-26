@@ -1,5 +1,6 @@
 import requests
 import os
+import csv
 
 # from dotenv import load_dotenv
 
@@ -97,6 +98,21 @@ def create():
             return create()
 
 
+def export_CSV(records, filename="csv_files/books_export.csv"):
+    if not records:
+        print("No Records Found")
+        return
+    fields = records[0].keys()
+    try:
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(records)
+        print(f"\nSuccess! Cleaned data exported to {filename}")
+    except IOError as e:
+        print(f"\nError saving to CSV: {e}")
+
+
 def main():
     optA, term = create()
     data = fetch_data(optA)
@@ -105,6 +121,15 @@ def main():
 
     records = process_data(data)
     display_results(records)
+
+    # Option B: The CSV Export prompt
+    export_choice = input(
+        "\nWould you like to export these results to a CSV file? (y/n): "
+    )
+    if export_choice.lower().strip() == "y":
+        export_CSV(records, f"csv_files/{term}_book_export.csv")
+
+    print("\nThanks for using the Open Library Explorer!")
 
 
 if __name__ == "__main__":
