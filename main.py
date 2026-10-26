@@ -87,7 +87,7 @@ def create():
             return params, "subject"
         case _:
             print("Please input a valid option.")
-            create()
+            return create()
 
 
 def main():
