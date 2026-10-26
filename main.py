@@ -65,22 +65,29 @@ def create():
     match optionA:
         case "1":
             author = input("Which author would you like to search for? ")
-            limit = int(
-                input(
-                    "What is the maximum amount of returns you would like? (At most 200) "
+            try:
+                limit = int(
+                    input(
+                        "What is the maximum amount of returns you would like? (At most 200) "
+                    )
                 )
-            )
+            except:
+                limit = 100
             if limit > 200:
                 limit = 100
             params = {"limit": limit, "author": author}
             return params, "author"
         case "2":
             subject = input("Which subject would you like to search for? ")
-            limit = int(
-                input(
-                    "What is the maximum amount of returns you would like? (At most 200) "
+            try:
+                limit = int(
+                    input(
+                        "What is the maximum amount of returns you would like? (At most 200) "
+                    )
                 )
-            )
+            except:
+                limit = 100
+
             if limit > 200:
                 limit = 100
             params = {"limit": limit, "q": subject}
