@@ -73,7 +73,11 @@ def create():
                     )
                 )
             except:
+                print(
+                    f"{limit} is an invalid input. The default 100 will be displayed."
+                )
                 limit = 100
+
             if limit > 200:
                 limit = 200
             params = {"limit": limit, "author": author}
@@ -87,6 +91,9 @@ def create():
                     )
                 )
             except:
+                print(
+                    f"{limit} is an invalid input. The default 100 will be displayed."
+                )
                 limit = 100
 
             if limit > 200:
